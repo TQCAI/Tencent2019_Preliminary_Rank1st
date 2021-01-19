@@ -14,7 +14,7 @@ def parse_rawdata():
         f'{root}/testA/totalExposureLog.out', sep='\t',
         names=['id', 'request_timestamp', 'position', 'uid', 'aid', 'imp_ad_size', 'bid', 'pctr',
                'quality_ecpm', 'totalEcpm'],
-        nrows=int(1e6)
+        nrows=int(5e6)
     ).sort_values(by='request_timestamp')
     df[['id', 'request_timestamp', 'position', 'uid', 'aid', 'imp_ad_size']] = \
         df[['id', 'request_timestamp', 'position', 'uid', 'aid', 'imp_ad_size']].astype(int)
@@ -92,7 +92,7 @@ def construct_log():
     train_df['hour'] = hour
     train_df['minute'] = minute
     train_df['period_id'] = train_df['hour'] * 2 + train_df['minute'] // 30
-    dev_df = train_df[train_df['request_day'] == 17944]
+    dev_df = train_df[train_df['request_day'] == 17945]
     del dev_df['period_id']
     del dev_df['minute']
     del dev_df['hour']
@@ -265,7 +265,7 @@ print("construct dev data ....")
 dev_df = construct_dev_data(dev_df)
 
 print("load test data ....")
-test_df = pd.read_pickle('data/testA/test_sample.pkl')
+test_df = pd.read_pickle(f'{root}/testA/test_sample.pkl')
 
 print("combine advertise features ....")
 ad_df = pd.read_pickle(f'{root}/testA/ad_static_feature.pkl')
